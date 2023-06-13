@@ -9,7 +9,7 @@ import com.krispoole.RetailRewardService.entity.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-    @Query("SELECT C FROM Customer C WHERE C.email = ?1")
-    Customer findByEmail(String email);
+    @Query("SELECT C FROM Customer C WHERE C.customerId = ?1")
+    Customer findByCustomerId(Integer customerId);
     
 }

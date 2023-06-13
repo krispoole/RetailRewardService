@@ -9,23 +9,47 @@ import com.krispoole.RetailRewardService.entity.Rewards;
 import com.krispoole.RetailRewardService.entity.Transaction;
 import com.krispoole.RetailRewardService.repository.TransactionRepository;
 
-import io.swagger.v3.oas.annotations.servers.Server;
-
 @Service
 public class RetailRewardService {
 
     @Autowired
     TransactionRepository transactionRepository;
 
-    public Rewards calculateTotalRewards(String email) {
+    public Rewards calculateTotalRewards(Integer customerId) {
 
         Rewards rewards = new Rewards();
-        Double total = 0.00;
 
-        List<Transaction> allTransactions = transactionRepository.findByCustomerEmail(email);
+        List<Transaction> allTransactions = transactionRepository.findByCustomerId(customerId);
 
-        for (Transaction transaction : allTransactions) {
+        Integer total = calculateRewards(allTransactions);
+
+		rewards.setRetailRewards(total);
+        rewards.setCustomerId(customerId);
+
+		return rewards;
+    }
+
+    public Rewards calculateRewardsForMonth(Integer customerId, Integer month) {	
+
+		Rewards rewards = new Rewards();
+
+        List<Transaction> allTransactions = transactionRepository.findByCustomerIdAndMonth(customerId, month);
 		
+        Integer total = calculateRewards(allTransactions);
+
+		rewards.setRetailRewards(total);
+        rewards.setCustomerId(customerId);
+        rewards.setMonth(month);
+
+		return rewards;
+	}
+
+    public Integer calculateRewards(List<Transaction> transactions) {
+
+        Integer total = 0;
+
+        for (Transaction transaction : transactions) {
+
 			Integer transactionAmount = transaction.getTransactionAmount().intValue();
 			
 			if (transactionAmount > 50 && transactionAmount < 100) {
@@ -36,38 +60,8 @@ public class RetailRewardService {
 				total += 50 + (transactionAmount - 100) * 2;
 			}
 		}
-
-		rewards.setRetailRewards(total);
-
-		return rewards;
+            
+        return total;
     }
-
-    public Rewards calculateRewardsForMonth(String email, int month) {	
-
-		Rewards rewards = new Rewards();
-		Double total = 0.00;
-
-        List<Transaction> allTransactions = transactionRepository.findByCustomerEmail(email);
-		
-		for (Transaction transaction : allTransactions) {
-			
-			if (transaction.getTransactionDate().getMonthValue() == month) {
-						
-				Integer transactionAmount = transaction.getTransactionAmount().intValue();
-				
-				if (transactionAmount > 50 && transactionAmount < 100) {
-					total += transactionAmount - 50;
-				}
-				
-				if (transactionAmount >= 100) {
-					total += 50 + (transactionAmount - 100) * 2;
-				}
-			}
-		}
-
-        rewards.setRetailRewards(total);
-		
-		return rewards;
-	}
 
 }

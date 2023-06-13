@@ -33,9 +33,9 @@ public class RetailRewardService {
 
 		Rewards rewards = new Rewards();
 
-        List<Transaction> allTransactions = transactionRepository.findByCustomerIdAndMonth(customerId, month);
+        List<Transaction> monthTransactions = transactionRepository.findByCustomerIdAndMonth(customerId, month);
 		
-        Integer total = calculateRewards(allTransactions);
+        Integer total = calculateRewards(monthTransactions);
 
 		rewards.setRetailRewards(total);
         rewards.setCustomerId(customerId);
@@ -52,11 +52,11 @@ public class RetailRewardService {
 
 			Integer transactionAmount = transaction.getTransactionAmount().intValue();
 			
-			if (transactionAmount > 50 && transactionAmount < 100) {
+			if (transactionAmount > 50 && transactionAmount <= 100) {
 				total += transactionAmount - 50;
 			}
 			
-			if (transactionAmount >= 100) {
+			if (transactionAmount > 100) {
 				total += 50 + (transactionAmount - 100) * 2;
 			}
 		}

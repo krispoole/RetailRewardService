@@ -17,6 +17,7 @@ public class RetailRewardsServiceTest {
 
     @Test
     public void calculateTotalRewardsTest() {
+
         Rewards rewards = retailRewardService.calculateTotalRewards(1);
 
         assertEquals(1, rewards.getCustomerId());
@@ -26,10 +27,11 @@ public class RetailRewardsServiceTest {
 
     @Test
     public void calculateRewardsForMonthTest() {
+        
         Rewards rewards = retailRewardService.calculateRewardsForMonth(1, 1);
 
         assertEquals(1, rewards.getCustomerId());
-        assertEquals(5, rewards.getRetailRewards());
         assertEquals(1, rewards.getMonth());
+        assertEquals(5, rewards.getRetailRewards());
     }
 }

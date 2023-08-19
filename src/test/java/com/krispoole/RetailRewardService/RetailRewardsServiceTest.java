@@ -40,7 +40,7 @@ public class RetailRewardsServiceTest {
         assertEquals(5, 5);
     }
 
-    // OOps, I didn't mean to add this
+    // Another test thing here 
     
     @Test
     public void calculateRewardsTest() {

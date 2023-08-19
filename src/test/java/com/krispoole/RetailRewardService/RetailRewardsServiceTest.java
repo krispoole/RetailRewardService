@@ -40,8 +40,6 @@ public class RetailRewardsServiceTest {
         assertEquals(5, 5);
     }
 
-    // Another test thing here 
-    
     @Test
     public void calculateRewardsTest() {
 

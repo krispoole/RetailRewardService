@@ -44,7 +44,7 @@ public class RetailRewardsControllerTest {
         assertEquals(100, responseEntity.getBody().getRetailRewards());
     }
 
-    // I'm just testing commit stuff
+    // I did mean to change this
     
     @Test
     public void testRetrieveRewardsByMonth() {
